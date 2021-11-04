@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 
 application = Flask(__name__)
+app = application
 
 state = { "value" : 1} 
 
