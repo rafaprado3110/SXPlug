@@ -1,29 +1,29 @@
 from flask import Flask, jsonify, request
 
-app = Flask(__name__)
+application = Flask(__name__)
 
-state = {
-        "potencia": 0,
-        "data": '00/00/0000',
-        "hora": '00:00',
-        "value": 0
-}
+state = { "value" : 1} 
 
+@application.route('/', methods =['GET'])
+def home():
+    return "Seja Bem Vindo ao VNCS-13"
 
-
-@app.route('/', methods =['GET'])
-def raiz():
-    return "Bem vindo ao SX-Plug"
-
-@app.route('/PegaStatus', methods =['GET'])
+@application.route('/GetState', methods =['GET'])
 def GetState():
     return jsonify(state)
 
-@app.route('/MudaStatus', methods =['POST'])
-def ChangeState():
+@application.route('/AppChangeState', methods =['GET'])
+def AppChangeState():
+    if state['value'] == 1:
+        state['value'] = 0
+    else:
+        state['value'] = 1
+
+    return jsonify(state)
+
+@application.route('/NodeChangeState', methods =['POST'])
+def NodeChangeState():
     data = request.get_json()
     state.update(data)
 
     return jsonify(data)
-
-app.run()
