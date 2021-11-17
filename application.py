@@ -13,7 +13,7 @@ potencia = {
     "Pot": "00"
 }
 
-banco = mysql.connector.connect(host="database-2.cgnraaiqytel.us-west-2.rds.amazonaws.com", user="admin", password="usuariopi6", database="infos" )
+#banco = mysql.connector.connect(host="database-2.cgnraaiqytel.us-west-2.rds.amazonaws.com", user="admin", password="usuariopi6", database="infos" )
 
 @application.route('/', methods =['GET'])
 def raiz():
