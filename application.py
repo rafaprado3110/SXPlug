@@ -9,7 +9,7 @@ state = {
 }
 
 potencia = {
-    "Pot": "00"
+    "Pot": 0
 }
 
 banco = mysql.connector.connect(host="database-2.cgnraaiqytel.us-west-2.rds.amazonaws.com", user="admin", password="usuariopi6", database="infos" )
@@ -30,13 +30,17 @@ def Potencia2():
     print(hour)
 
     bd = banco.cursor()
-    bd.execute("INSERT INTO informacoes VALUES ('" + today + "', '" + hour + "', " + potencia["Pot"] + ")")
+    bd.execute("INSERT INTO informacoes VALUES ('" + today + "', '" + hour + "', " + str(potencia["Pot"]) + ")")
     banco.commit()
-    return ("INSERT INTO informacoes VALUES ('" + today + "', '" + hour + "', " + potencia["Pot"] + ")")
+    return ("INSERT INTO informacoes VALUES ('" + today + "', '" + hour + "', " + str(potencia["Pot"]) + ")")
 
 @application.route('/PegaStatus', methods =['GET'])
 def GetState():
     return jsonify(state)
+
+@application.route('/PegaPot', methods = ['GET'])
+def GetPot():
+    return jsonify(potencia)
 
 @application.route('/MudaStatus', methods =['POST'])
 def ChangeState():
