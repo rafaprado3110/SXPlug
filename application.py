@@ -1,4 +1,5 @@
 import mysql.connector
+from datetime import datetime
 from flask import Flask, jsonify, request
 
 application = Flask(__name__)
@@ -8,8 +9,6 @@ state = {
 }
 
 potencia = {
-    "Data": "XX/XX/XXXX",
-    "Hora": "00:00",
     "Pot": "00"
 }
 
@@ -23,10 +22,17 @@ def raiz():
 def Potencia2():
     data = request.get_json()
     potencia.update(data)
+
+    now = datetime.today()
+    today = now.strftime("%d/%m/%Y")
+    hour = now.strftime("%H:%M")
+    print(today)
+    print(hour)
+
     bd = banco.cursor()
-    bd.execute("INSERT INTO informacoes VALUES ('" + potencia["Data"] + "', '" + potencia["Hora"] + "', " + potencia["Pot"] + ")")
+    bd.execute("INSERT INTO informacoes VALUES ('" + today + "', '" + hour + "', " + potencia["Pot"] + ")")
     banco.commit()
-    return ("INSERT INTO informacoes VALUES ('" + potencia["Data"] + "', '" + potencia["Hora"] + "', " + potencia["Pot"] + ")")
+    return ("INSERT INTO informacoes VALUES ('" + today + "', '" + hour + "', " + potencia["Pot"] + ")")
 
 @application.route('/PegaStatus', methods =['GET'])
 def GetState():
